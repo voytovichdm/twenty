@@ -17,8 +17,8 @@ export class MessagingBlocklistListener {
     private readonly messageQueueService: MessageQueueService,
   ) {}
 
-  @OnEvent('blocklist.deleted')
-  handleDeletedEvent(
+  @OnEvent('blocklist.created')
+  handleCreatedEvent(
     payload: ObjectRecordDeleteEvent<BlocklistObjectMetadata>,
   ) {
     this.messageQueueService.add<DeleteMessageFromHandleJobData>(
