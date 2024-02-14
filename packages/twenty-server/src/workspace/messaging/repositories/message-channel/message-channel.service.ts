@@ -28,6 +28,29 @@ export class MessageChannelService {
     );
   }
 
+  public async getMessageChannelIdsByWorkspaceMemberId(
+    workspaceMemberId: string,
+    workspaceId: string,
+    transactionManager?: EntityManager,
+  ): Promise<string[]> {
+    const dataSourceSchema =
+      this.workspaceDataSourceService.getSchemaName(workspaceId);
+
+    const messageChannelIds =
+      await this.workspaceDataSourceService.executeRawQuery(
+        `SELECT "messageChannel"."id" FROM ${dataSourceSchema}."messageChannel" "messageChannel"
+        JOIN ${dataSourceSchema}."connectedAccount" ON ${dataSourceSchema}."messageChannel"."connectedAccountId" = ${dataSourceSchema}."connectedAccount"."id"
+        WHERE ${dataSourceSchema}."connectedAccount"."workspaceMemberId" = $1`,
+        [workspaceMemberId],
+        workspaceId,
+        transactionManager,
+      );
+
+    return messageChannelIds.map(
+      (messageChannelId: { id: string }) => messageChannelId.id,
+    );
+  }
+
   public async getFirstByConnectedAccountIdOrFail(
     connectedAccountId: string,
     workspaceId: string,

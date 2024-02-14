@@ -172,9 +172,9 @@ export class MessageChannelMessageAssociationService {
     );
   }
 
-  public async deleteByHandleAndMessageChannelId(
+  public async deleteByHandleAndMessageChannelIds(
     handle: string,
-    workspaceMemberId: string,
+    messageChannelIds: string[],
     workspaceId: string,
     transactionManager?: EntityManager,
   ) {
@@ -182,8 +182,8 @@ export class MessageChannelMessageAssociationService {
       this.workspaceDataSourceService.getSchemaName(workspaceId);
 
     await this.workspaceDataSourceService.executeRawQuery(
-      `DELETE FROM ${dataSourceSchema}."messageChannelMessageAssociation" WHERE "handle" = $1 AND "workspaceMemberId" = $2`,
-      [handle, workspaceMemberId],
+      `DELETE FROM ${dataSourceSchema}."messageChannelMessageAssociation" WHERE "handle" = $1 AND "messageChannelId" = ANY($2)`,
+      [handle, messageChannelIds],
       workspaceId,
       transactionManager,
     );
