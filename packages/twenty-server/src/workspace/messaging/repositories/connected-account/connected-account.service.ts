@@ -27,6 +27,22 @@ export class ConnectedAccountService {
     );
   }
 
+  public async getByWorkspaceMemberId(
+    workspaceMemberId: string,
+    workspaceId: string,
+    transactionManager?: EntityManager,
+  ): Promise<ObjectRecord<ConnectedAccountObjectMetadata>[]> {
+    const dataSourceSchema =
+      this.workspaceDataSourceService.getSchemaName(workspaceId);
+
+    return await this.workspaceDataSourceService.executeRawQuery(
+      `SELECT * FROM ${dataSourceSchema}."connectedAccount" WHERE "workspaceMemberId" = $1`,
+      [workspaceMemberId],
+      workspaceId,
+      transactionManager,
+    );
+  }
+
   public async getByIds(
     connectedAccountIds: string[],
     workspaceId: string,

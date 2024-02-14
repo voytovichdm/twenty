@@ -171,4 +171,21 @@ export class MessageChannelMessageAssociationService {
       transactionManager,
     );
   }
+
+  public async deleteByHandleAndMessageChannelId(
+    handle: string,
+    workspaceMemberId: string,
+    workspaceId: string,
+    transactionManager?: EntityManager,
+  ) {
+    const dataSourceSchema =
+      this.workspaceDataSourceService.getSchemaName(workspaceId);
+
+    await this.workspaceDataSourceService.executeRawQuery(
+      `DELETE FROM ${dataSourceSchema}."messageChannelMessageAssociation" WHERE "handle" = $1 AND "workspaceMemberId" = $2`,
+      [handle, workspaceMemberId],
+      workspaceId,
+      transactionManager,
+    );
+  }
 }
