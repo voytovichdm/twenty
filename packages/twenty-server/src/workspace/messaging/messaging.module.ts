@@ -27,6 +27,7 @@ import { CompanyModule } from 'src/workspace/messaging/repositories/company/comp
 import { PersonModule } from 'src/workspace/messaging/repositories/person/person.module';
 import { SaveMessagesAndCreateContactsService } from 'src/workspace/messaging/services/save-messages-and-create-contacts.service';
 import { MessagingConnectedAccountListener } from 'src/workspace/messaging/listeners/messaging-connected-account.listener';
+import { MessagingBlocklistListener } from 'src/workspace/messaging/listeners/messaging-blocklist.listener';
 @Module({
   imports: [
     EnvironmentModule,
@@ -54,6 +55,7 @@ import { MessagingConnectedAccountListener } from 'src/workspace/messaging/liste
     MessagingPersonListener,
     MessagingWorkspaceMemberListener,
     MessagingMessageChannelListener,
+    MessagingBlocklistListener,
     MessageService,
     SaveMessagesAndCreateContactsService,
     MessagingConnectedAccountListener,

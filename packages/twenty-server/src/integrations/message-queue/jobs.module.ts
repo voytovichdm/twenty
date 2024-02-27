@@ -28,6 +28,8 @@ import { DataSeedDemoWorkspaceModule } from 'src/database/commands/data-seed-dem
 import { DataSeedDemoWorkspaceJob } from 'src/database/commands/data-seed-demo-workspace/jobs/data-seed-demo-workspace.job';
 import { DeleteConnectedAccountAssociatedDataJob } from 'src/workspace/messaging/jobs/delete-connected-acount-associated-data.job';
 import { ThreadCleanerModule } from 'src/workspace/messaging/services/thread-cleaner/thread-cleaner.module';
+import { DeleteMessageFromHandleJob } from 'src/workspace/messaging/jobs/delete-message-from-handle.job';
+import { MessageChannelMessageAssociationModule } from 'src/workspace/messaging/repositories/message-channel-message-association/message-channel-message-assocation.module';
 
 @Module({
   imports: [
@@ -47,6 +49,7 @@ import { ThreadCleanerModule } from 'src/workspace/messaging/services/thread-cle
     MessageChannelModule,
     DataSeedDemoWorkspaceModule,
     ThreadCleanerModule,
+    MessageChannelMessageAssociationModule,
   ],
   providers: [
     {
@@ -89,6 +92,10 @@ import { ThreadCleanerModule } from 'src/workspace/messaging/services/thread-cle
     {
       provide: DeleteConnectedAccountAssociatedDataJob.name,
       useClass: DeleteConnectedAccountAssociatedDataJob,
+    },
+    {
+      provide: DeleteMessageFromHandleJob.name,
+      useClass: DeleteMessageFromHandleJob,
     },
   ],
 })
