@@ -20,7 +20,14 @@ import { FeatureFlagEntity } from 'src/core/feature-flag/feature-flag.entity';
 import { FetchAllWorkspacesMessagesJob } from 'src/workspace/messaging/commands/crons/fetch-all-workspaces-messages.job';
 import { ConnectedAccountModule } from 'src/workspace/messaging/repositories/connected-account/connected-account.module';
 import { MatchMessageParticipantJob } from 'src/workspace/messaging/jobs/match-message-participant.job';
+import { CreateCompaniesAndContactsAfterSyncJob } from 'src/workspace/messaging/jobs/create-companies-and-contacts-after-sync.job';
+import { CreateCompaniesAndContactsModule } from 'src/workspace/messaging/services/create-companies-and-contacts/create-companies-and-contacts.module';
+import { MessageChannelModule } from 'src/workspace/messaging/repositories/message-channel/message-channel.module';
 import { MessageParticipantModule } from 'src/workspace/messaging/repositories/message-participant/message-participant.module';
+import { DataSeedDemoWorkspaceModule } from 'src/database/commands/data-seed-demo-workspace/data-seed-demo-workspace.module';
+import { DataSeedDemoWorkspaceJob } from 'src/database/commands/data-seed-demo-workspace/jobs/data-seed-demo-workspace.job';
+import { DeleteConnectedAccountAssociatedDataJob } from 'src/workspace/messaging/jobs/delete-connected-acount-associated-data.job';
+import { ThreadCleanerModule } from 'src/workspace/messaging/services/thread-cleaner/thread-cleaner.module';
 
 @Module({
   imports: [
@@ -36,6 +43,10 @@ import { MessageParticipantModule } from 'src/workspace/messaging/repositories/m
     TypeOrmModule.forFeature([FeatureFlagEntity], 'core'),
     ConnectedAccountModule,
     MessageParticipantModule,
+    CreateCompaniesAndContactsModule,
+    MessageChannelModule,
+    DataSeedDemoWorkspaceModule,
+    ThreadCleanerModule,
   ],
   providers: [
     {
@@ -66,6 +77,18 @@ import { MessageParticipantModule } from 'src/workspace/messaging/repositories/m
     {
       provide: MatchMessageParticipantJob.name,
       useClass: MatchMessageParticipantJob,
+    },
+    {
+      provide: CreateCompaniesAndContactsAfterSyncJob.name,
+      useClass: CreateCompaniesAndContactsAfterSyncJob,
+    },
+    {
+      provide: DataSeedDemoWorkspaceJob.name,
+      useClass: DataSeedDemoWorkspaceJob,
+    },
+    {
+      provide: DeleteConnectedAccountAssociatedDataJob.name,
+      useClass: DeleteConnectedAccountAssociatedDataJob,
     },
   ],
 })

@@ -33,6 +33,7 @@ import {
 
 import { isEnumFieldMetadataType } from './utils/is-enum-field-metadata-type.util';
 import { generateRatingOptions } from './utils/generate-rating-optionts.util';
+import { generateDefaultValue } from './utils/generate-default-value';
 
 @Injectable()
 export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntity> {
@@ -101,6 +102,9 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
         true,
         fieldMetadataInput.name,
       ),
+      defaultValue:
+        fieldMetadataInput.defaultValue ??
+        generateDefaultValue(fieldMetadataInput.type),
       options: fieldMetadataInput.options
         ? fieldMetadataInput.options.map((option) => ({
             ...option,
@@ -224,9 +228,23 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
           )
         : fieldMetadataInput;
 
-    const updatedFieldMetadata = await super.updateOne(id, updatableFieldInput);
+    const updatedFieldMetadata = await super.updateOne(id, {
+      ...updatableFieldInput,
+      // If the name is updated, the targetColumnMap should be updated as well
+      targetColumnMap: updatableFieldInput.name
+        ? generateTargetColumnMap(
+            existingFieldMetadata.type,
+            existingFieldMetadata.isCustom,
+            updatableFieldInput.name,
+          )
+        : existingFieldMetadata.targetColumnMap,
+    });
 
-    if (updatableFieldInput.options || updatableFieldInput.defaultValue) {
+    if (
+      fieldMetadataInput.name ||
+      updatableFieldInput.options ||
+      updatableFieldInput.defaultValue
+    ) {
       await this.workspaceMigrationService.createCustomMigration(
         generateMigrationName(`update-${updatedFieldMetadata.name}`),
         existingFieldMetadata.workspaceId,

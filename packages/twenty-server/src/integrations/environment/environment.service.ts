@@ -32,6 +32,23 @@ export class EnvironmentService {
     return this.configService.get<string>('BILLING_PLAN_REQUIRED_LINK') ?? '';
   }
 
+  getBillingStripeBasePlanProductId(): string {
+    return (
+      this.configService.get<string>('BILLING_STRIPE_BASE_PLAN_PRODUCT_ID') ??
+      ''
+    );
+  }
+
+  getBillingStripeApiKey(): string {
+    return this.configService.get<string>('BILLING_STRIPE_API_KEY') ?? '';
+  }
+
+  getBillingStripeWebhookSecret(): string {
+    return (
+      this.configService.get<string>('BILLING_STRIPE_WEBHOOK_SECRET') ?? ''
+    );
+  }
+
   isTelemetryEnabled(): boolean {
     return this.configService.get<boolean>('TELEMETRY_ENABLED') ?? true;
   }
@@ -298,5 +315,11 @@ export class EnvironmentService {
 
   getApiRateLimitingLimit(): number {
     return this.configService.get<number>('API_RATE_LIMITING_LIMIT') ?? 500;
+  }
+
+  getMutationMaximumRecordAffected(): number {
+    return (
+      this.configService.get<number>('MUTATION_MAXIMUM_RECORD_AFFECTED') ?? 100
+    );
   }
 }

@@ -1,7 +1,9 @@
 import { FieldMetadataType } from 'src/metadata/field-metadata/field-metadata.entity';
-import { RelationMetadataType } from 'src/metadata/relation-metadata/relation-metadata.entity';
+import {
+  RelationMetadataType,
+  RelationOnDeleteAction,
+} from 'src/metadata/relation-metadata/relation-metadata.entity';
 import { FieldMetadata } from 'src/workspace/workspace-sync-metadata/decorators/field-metadata.decorator';
-import { Gate } from 'src/workspace/workspace-sync-metadata/decorators/gate.decorator';
 import { IsNullable } from 'src/workspace/workspace-sync-metadata/decorators/is-nullable.decorator';
 import { IsSystem } from 'src/workspace/workspace-sync-metadata/decorators/is-system.decorator';
 import { ObjectMetadata } from 'src/workspace/workspace-sync-metadata/decorators/object-metadata.decorator';
@@ -17,9 +19,6 @@ import { MessageThreadObjectMetadata } from 'src/workspace/workspace-sync-metada
   labelPlural: 'Messages',
   description: 'Message',
   icon: 'IconMessage',
-})
-@Gate({
-  featureFlag: 'IS_MESSAGING_ENABLED',
 })
 @IsSystem()
 export class MessageObjectMetadata extends BaseObjectMetadata {
@@ -97,6 +96,7 @@ export class MessageObjectMetadata extends BaseObjectMetadata {
     type: RelationMetadataType.ONE_TO_MANY,
     objectName: 'messageParticipant',
     inverseSideFieldName: 'message',
+    onDelete: RelationOnDeleteAction.CASCADE,
   })
   @IsNullable()
   messageParticipants: MessageParticipantObjectMetadata[];
@@ -110,6 +110,7 @@ export class MessageObjectMetadata extends BaseObjectMetadata {
   @RelationMetadata({
     type: RelationMetadataType.ONE_TO_MANY,
     objectName: 'messageChannelMessageAssociation',
+    onDelete: RelationOnDeleteAction.CASCADE,
   })
   @IsNullable()
   messageChannelMessageAssociations: MessageChannelMessageAssociationObjectMetadata[];

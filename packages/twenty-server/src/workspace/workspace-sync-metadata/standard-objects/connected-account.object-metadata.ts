@@ -1,7 +1,9 @@
 import { FieldMetadataType } from 'src/metadata/field-metadata/field-metadata.entity';
-import { RelationMetadataType } from 'src/metadata/relation-metadata/relation-metadata.entity';
+import {
+  RelationMetadataType,
+  RelationOnDeleteAction,
+} from 'src/metadata/relation-metadata/relation-metadata.entity';
 import { FieldMetadata } from 'src/workspace/workspace-sync-metadata/decorators/field-metadata.decorator';
-import { Gate } from 'src/workspace/workspace-sync-metadata/decorators/gate.decorator';
 import { IsNullable } from 'src/workspace/workspace-sync-metadata/decorators/is-nullable.decorator';
 import { IsSystem } from 'src/workspace/workspace-sync-metadata/decorators/is-system.decorator';
 import { ObjectMetadata } from 'src/workspace/workspace-sync-metadata/decorators/object-metadata.decorator';
@@ -16,9 +18,6 @@ import { WorkspaceMemberObjectMetadata } from 'src/workspace/workspace-sync-meta
   labelPlural: 'Connected Accounts',
   description: 'A connected account',
   icon: 'IconAt',
-})
-@Gate({
-  featureFlag: 'IS_MESSAGING_ENABLED',
 })
 @IsSystem()
 export class ConnectedAccountObjectMetadata extends BaseObjectMetadata {
@@ -80,6 +79,7 @@ export class ConnectedAccountObjectMetadata extends BaseObjectMetadata {
   @RelationMetadata({
     type: RelationMetadataType.ONE_TO_MANY,
     objectName: 'messageChannel',
+    onDelete: RelationOnDeleteAction.CASCADE,
   })
   @IsNullable()
   messageChannels: MessageChannelObjectMetadata[];
