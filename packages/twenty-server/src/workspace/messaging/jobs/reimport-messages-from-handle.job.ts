@@ -5,26 +5,26 @@ import { MessageQueueJob } from 'src/integrations/message-queue/interfaces/messa
 import { MessageChannelMessageAssociationService } from 'src/workspace/messaging/repositories/message-channel-message-association/message-channel-message-association.service';
 import { MessageChannelService } from 'src/workspace/messaging/repositories/message-channel/message-channel.service';
 
-export type DeleteMessageFromHandleJobData = {
+export type ReimportMessagesFromHandleJobData = {
   workspaceId: string;
   workspaceMemberId: string;
   handle: string;
 };
 
 @Injectable()
-export class DeleteMessageFromHandleJob
-  implements MessageQueueJob<DeleteMessageFromHandleJobData>
+export class ReimportMessagesFromHandleJob
+  implements MessageQueueJob<ReimportMessagesFromHandleJobData>
 {
-  private readonly logger = new Logger(DeleteMessageFromHandleJob.name);
+  private readonly logger = new Logger(ReimportMessagesFromHandleJob.name);
 
   constructor(
     private readonly messageChannelService: MessageChannelService,
     private readonly messageChannelMessageAssociationService: MessageChannelMessageAssociationService,
   ) {}
 
-  async handle(data: DeleteMessageFromHandleJobData): Promise<void> {
+  async handle(data: ReimportMessagesFromHandleJobData): Promise<void> {
     this.logger.log(
-      `Deleting message from handle ${data.handle} in workspace ${data.workspaceId} for workspace member ${data.workspaceMemberId}`,
+      `Reimporting messages from handle ${data.handle} in workspace ${data.workspaceId} for workspace member ${data.workspaceMemberId}`,
     );
 
     const { handle, workspaceId, workspaceMemberId } = data;
@@ -35,14 +35,8 @@ export class DeleteMessageFromHandleJob
         workspaceId,
       );
 
-    await this.messageChannelMessageAssociationService.deleteByHandleAndMessageChannelIds(
-      handle,
-      messageChannelIds,
-      workspaceId,
-    );
-
     this.logger.log(
-      `Deleting message from handle ${data.handle} in workspace ${data.workspaceId} for workspace member ${data.workspaceMemberId} done`,
+      `Reimporting messages from ${data.handle} in workspace ${data.workspaceId} for workspace member ${data.workspaceMemberId} done`,
     );
   }
 }

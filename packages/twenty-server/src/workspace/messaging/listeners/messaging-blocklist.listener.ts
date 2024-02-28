@@ -5,9 +5,9 @@ import { ObjectRecordCreateEvent } from 'src/integrations/event-emitter/types/ob
 import { MessageQueue } from 'src/integrations/message-queue/message-queue.constants';
 import { MessageQueueService } from 'src/integrations/message-queue/services/message-queue.service';
 import {
-  DeleteMessageFromHandleJobData,
-  DeleteMessageFromHandleJob,
-} from 'src/workspace/messaging/jobs/delete-message-from-handle.job';
+  DeleteMessagesFromHandleJobData,
+  DeleteMessagesFromHandleJob,
+} from 'src/workspace/messaging/jobs/delete-messages-from-handle.job';
 import { BlocklistObjectMetadata } from 'src/workspace/workspace-sync-metadata/standard-objects/blocklist.object-metadata';
 
 @Injectable()
@@ -21,8 +21,8 @@ export class MessagingBlocklistListener {
   handleCreatedEvent(
     payload: ObjectRecordCreateEvent<BlocklistObjectMetadata>,
   ) {
-    this.messageQueueService.add<DeleteMessageFromHandleJobData>(
-      DeleteMessageFromHandleJob.name,
+    this.messageQueueService.add<DeleteMessagesFromHandleJobData>(
+      DeleteMessagesFromHandleJob.name,
       {
         workspaceId: payload.workspaceId,
         workspaceMemberId: payload.createdRecord.workspaceMember.id,
