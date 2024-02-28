@@ -2,6 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 
 import { ObjectRecordCreateEvent } from 'src/integrations/event-emitter/types/object-record-create.event';
+import { ObjectRecordUpdateEvent } from 'src/integrations/event-emitter/types/object-record-update.event';
+import { objectRecordChangedProperties } from 'src/integrations/event-emitter/utils/object-record-changed-properties.util';
 import { MessageQueue } from 'src/integrations/message-queue/message-queue.constants';
 import { MessageQueueService } from 'src/integrations/message-queue/services/message-queue.service';
 import {
@@ -47,5 +49,39 @@ export class MessagingBlocklistListener {
         handle: payload.createdRecord.handle,
       },
     );
+  }
+
+  @OnEvent('blocklist.updated')
+  handleUpdatedEvent(
+    payload: ObjectRecordUpdateEvent<BlocklistObjectMetadata>,
+  ) {
+    if (
+      objectRecordChangedProperties(
+        payload.previousRecord,
+        payload.updatedRecord,
+      ).includes('handle') ||
+      objectRecordChangedProperties(
+        payload.previousRecord,
+        payload.updatedRecord,
+      ).includes('workspaceMember')
+    ) {
+      this.messageQueueService.add<DeleteMessagesFromHandleJobData>(
+        DeleteMessagesFromHandleJob.name,
+        {
+          workspaceId: payload.workspaceId,
+          workspaceMemberId: payload.previousRecord.workspaceMember.id,
+          handle: payload.previousRecord.handle,
+        },
+      );
+
+      this.messageQueueService.add<ReimportMessagesFromHandleJobData>(
+        ReimportMessagesFromHandleJob.name,
+        {
+          workspaceId: payload.workspaceId,
+          workspaceMemberId: payload.updatedRecord.workspaceMember.id,
+          handle: payload.updatedRecord.handle,
+        },
+      );
+    }
   }
 }
