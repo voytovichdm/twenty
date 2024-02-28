@@ -8,6 +8,10 @@ import {
   DeleteMessagesFromHandleJobData,
   DeleteMessagesFromHandleJob,
 } from 'src/workspace/messaging/jobs/delete-messages-from-handle.job';
+import {
+  ReimportMessagesFromHandleJobData,
+  ReimportMessagesFromHandleJob,
+} from 'src/workspace/messaging/jobs/reimport-messages-from-handle.job';
 import { BlocklistObjectMetadata } from 'src/workspace/workspace-sync-metadata/standard-objects/blocklist.object-metadata';
 
 @Injectable()
@@ -23,6 +27,20 @@ export class MessagingBlocklistListener {
   ) {
     this.messageQueueService.add<DeleteMessagesFromHandleJobData>(
       DeleteMessagesFromHandleJob.name,
+      {
+        workspaceId: payload.workspaceId,
+        workspaceMemberId: payload.createdRecord.workspaceMember.id,
+        handle: payload.createdRecord.handle,
+      },
+    );
+  }
+
+  @OnEvent('blocklist.deleted')
+  handleDeletedEvent(
+    payload: ObjectRecordCreateEvent<BlocklistObjectMetadata>,
+  ) {
+    this.messageQueueService.add<ReimportMessagesFromHandleJobData>(
+      ReimportMessagesFromHandleJob.name,
       {
         workspaceId: payload.workspaceId,
         workspaceMemberId: payload.createdRecord.workspaceMember.id,

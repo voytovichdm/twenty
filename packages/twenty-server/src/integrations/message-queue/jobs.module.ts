@@ -30,6 +30,7 @@ import { DeleteConnectedAccountAssociatedDataJob } from 'src/workspace/messaging
 import { ThreadCleanerModule } from 'src/workspace/messaging/services/thread-cleaner/thread-cleaner.module';
 import { DeleteMessagesFromHandleJob } from 'src/workspace/messaging/jobs/delete-messages-from-handle.job';
 import { MessageChannelMessageAssociationModule } from 'src/workspace/messaging/repositories/message-channel-message-association/message-channel-message-assocation.module';
+import { ReimportMessagesFromHandleJob } from 'src/workspace/messaging/jobs/reimport-messages-from-handle.job';
 
 @Module({
   imports: [
@@ -96,6 +97,10 @@ import { MessageChannelMessageAssociationModule } from 'src/workspace/messaging/
     {
       provide: DeleteMessagesFromHandleJob.name,
       useClass: DeleteMessagesFromHandleJob,
+    },
+    {
+      provide: ReimportMessagesFromHandleJob.name,
+      useClass: ReimportMessagesFromHandleJob,
     },
   ],
 })
