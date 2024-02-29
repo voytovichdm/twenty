@@ -12,7 +12,7 @@ import { ConnectedAccountService } from 'src/workspace/messaging/repositories/co
 import { MessageChannelService } from 'src/workspace/messaging/repositories/message-channel/message-channel.service';
 import { MessageChannelMessageAssociationService } from 'src/workspace/messaging/repositories/message-channel-message-association/message-channel-message-association.service';
 import { createQueriesFromMessageIds } from 'src/workspace/messaging/utils/create-queries-from-message-ids.util';
-import { gmailSearchFilterExcludeEmails } from 'src/workspace/messaging/utils/gmail-search-filter';
+import { gmailSearchFilterExcludeEmailAdresses } from 'src/workspace/messaging/utils/gmail-search-filter';
 import { BlocklistService } from 'src/workspace/messaging/repositories/blocklist/blocklist.service';
 import { SaveMessagesAndCreateContactsService } from 'src/workspace/messaging/services/save-messages-and-create-contacts.service';
 
@@ -73,7 +73,7 @@ export class GmailFullSyncService {
       userId: 'me',
       maxResults: 500,
       pageToken: nextPageToken,
-      q: gmailSearchFilterExcludeEmails(blocklistedEmails),
+      q: gmailSearchFilterExcludeEmailAdresses(blocklistedEmails),
     });
 
     let endTime = Date.now();
