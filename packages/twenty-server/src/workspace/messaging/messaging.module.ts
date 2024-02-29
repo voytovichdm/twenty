@@ -28,6 +28,7 @@ import { PersonModule } from 'src/workspace/messaging/repositories/person/person
 import { SaveMessagesAndCreateContactsService } from 'src/workspace/messaging/services/save-messages-and-create-contacts.service';
 import { MessagingConnectedAccountListener } from 'src/workspace/messaging/listeners/messaging-connected-account.listener';
 import { MessagingBlocklistListener } from 'src/workspace/messaging/listeners/messaging-blocklist.listener';
+import { BlocklistModule } from 'src/workspace/messaging/repositories/blocklist/blocklist.module';
 @Module({
   imports: [
     EnvironmentModule,
@@ -43,6 +44,7 @@ import { MessagingBlocklistListener } from 'src/workspace/messaging/listeners/me
     TypeOrmModule.forFeature([FeatureFlagEntity], 'core'),
     CompanyModule,
     PersonModule,
+    BlocklistModule,
   ],
   providers: [
     GmailFullSyncService,
