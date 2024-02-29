@@ -9,6 +9,7 @@ export type GmailFullSyncJobData = {
   workspaceId: string;
   connectedAccountId: string;
   nextPageToken?: string;
+  onlyIncludeEmailsFrom?: string[];
 };
 
 @Injectable()
@@ -35,6 +36,7 @@ export class GmailFullSyncJob implements MessageQueueJob<GmailFullSyncJobData> {
       data.workspaceId,
       data.connectedAccountId,
       data.nextPageToken,
+      data.onlyIncludeEmailsFrom,
     );
   }
 }
