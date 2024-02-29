@@ -210,6 +210,7 @@ export class GmailFullSyncService {
           workspaceId,
           connectedAccountId,
           nextPageToken: messages.data.nextPageToken,
+          onlyIncludeEmailsFrom,
         },
         {
           retryLimit: 2,
