@@ -30,7 +30,7 @@ export class GmailPartialSyncJob
       data.connectedAccountId,
     );
 
-    await this.gmailPartialSyncService.fetchConnectedAccountThreads(
+    await this.gmailPartialSyncService.startGmailPartialSync(
       data.workspaceId,
       data.connectedAccountId,
     );

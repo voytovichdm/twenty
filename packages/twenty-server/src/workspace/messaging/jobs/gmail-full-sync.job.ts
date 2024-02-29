@@ -31,7 +31,7 @@ export class GmailFullSyncJob implements MessageQueueJob<GmailFullSyncJobData> {
       data.connectedAccountId,
     );
 
-    await this.gmailFullSyncService.fetchConnectedAccountThreads(
+    await this.gmailFullSyncService.startGmailFullSync(
       data.workspaceId,
       data.connectedAccountId,
       data.nextPageToken,

@@ -35,7 +35,7 @@ export class GmailPartialSyncService {
     private readonly saveMessagesAndCreateContactsService: SaveMessagesAndCreateContactsService,
   ) {}
 
-  public async fetchConnectedAccountThreads(
+  public async startGmailPartialSync(
     workspaceId: string,
     connectedAccountId: string,
     maxResults = 500,

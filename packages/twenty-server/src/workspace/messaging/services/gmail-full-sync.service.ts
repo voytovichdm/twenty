@@ -12,9 +12,9 @@ import { ConnectedAccountService } from 'src/workspace/messaging/repositories/co
 import { MessageChannelService } from 'src/workspace/messaging/repositories/message-channel/message-channel.service';
 import { MessageChannelMessageAssociationService } from 'src/workspace/messaging/repositories/message-channel-message-association/message-channel-message-association.service';
 import { createQueriesFromMessageIds } from 'src/workspace/messaging/utils/create-queries-from-message-ids.util';
-import { gmailSearchFilterExcludeEmailAdresses } from 'src/workspace/messaging/utils/gmail-search-filters';
 import { BlocklistService } from 'src/workspace/messaging/repositories/blocklist/blocklist.service';
 import { SaveMessagesAndCreateContactsService } from 'src/workspace/messaging/services/save-messages-and-create-contacts.service';
+import { gmailSearchFilterEmailAdresses } from 'src/workspace/messaging/utils/gmail-search-filters';
 
 @Injectable()
 export class GmailFullSyncService {
@@ -32,7 +32,7 @@ export class GmailFullSyncService {
     private readonly saveMessagesAndCreateContactsService: SaveMessagesAndCreateContactsService,
   ) {}
 
-  public async fetchConnectedAccountThreads(
+  public async startGmailFullSync(
     workspaceId: string,
     connectedAccountId: string,
     nextPageToken?: string,
@@ -74,7 +74,10 @@ export class GmailFullSyncService {
       userId: 'me',
       maxResults: 500,
       pageToken: nextPageToken,
-      q: gmailSearchFilterExcludeEmailAdresses(blocklistedEmails),
+      q: gmailSearchFilterEmailAdresses(
+        onlyIncludeEmailsFrom,
+        blocklistedEmails,
+      ),
     });
 
     let endTime = Date.now();
