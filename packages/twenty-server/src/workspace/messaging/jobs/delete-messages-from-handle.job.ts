@@ -35,7 +35,7 @@ export class DeleteMessagesFromHandleJob
         workspaceId,
       );
 
-    await this.messageChannelMessageAssociationService.deleteByHandleAndMessageChannelIds(
+    await this.messageChannelMessageAssociationService.deleteByMessageParticipantHandleAndMessageChannelIds(
       handle,
       messageChannelIds,
       workspaceId,

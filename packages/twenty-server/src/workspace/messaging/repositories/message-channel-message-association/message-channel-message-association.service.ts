@@ -205,8 +205,8 @@ export class MessageChannelMessageAssociationService {
     );
   }
 
-  public async deleteByHandleAndMessageChannelIds(
-    handle: string,
+  public async deleteByMessageParticipantHandleAndMessageChannelIds(
+    messageParticipantHandle: string,
     messageChannelIds: string[],
     workspaceId: string,
     transactionManager?: EntityManager,
@@ -214,9 +214,26 @@ export class MessageChannelMessageAssociationService {
     const dataSourceSchema =
       this.workspaceDataSourceService.getSchemaName(workspaceId);
 
-    await this.workspaceDataSourceService.executeRawQuery(
-      `DELETE FROM ${dataSourceSchema}."messageChannelMessageAssociation" WHERE "handle" = $1 AND "messageChannelId" = ANY($2)`,
-      [handle, messageChannelIds],
+    const messageChannelMessageAssociationIdsToDelete =
+      await this.workspaceDataSourceService.executeRawQuery(
+        `SELECT "messageChannelMessageAssociation".id
+      FROM ${dataSourceSchema}."messageChannelMessageAssociation" "messageChannelMessageAssociation"
+      JOIN ${dataSourceSchema}."message" ON "messageChannelMessageAssociation"."messageId" = ${dataSourceSchema}."message"."id"
+      JOIN ${dataSourceSchema}."messageParticipant" "messageParticipant" ON ${dataSourceSchema}."message"."id" = "messageParticipant"."messageId"
+      WHERE "messageParticipant"."handle" = $1 AND "messageParticipant"."role"= ANY($2) AND "messageChannelId" = ANY($3)`,
+        [messageParticipantHandle, ['from', 'to'], messageChannelIds],
+        workspaceId,
+        transactionManager,
+      );
+
+    const messageChannelMessageAssociationIdsToDeleteArray =
+      messageChannelMessageAssociationIdsToDelete.map(
+        (messageChannelMessageAssociation: { id: string }) =>
+          messageChannelMessageAssociation.id,
+      );
+
+    await this.deleteByIds(
+      messageChannelMessageAssociationIdsToDeleteArray,
       workspaceId,
       transactionManager,
     );
