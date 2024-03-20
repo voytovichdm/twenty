@@ -21,8 +21,7 @@ export const USER_GUIDE_INDEX = {
     { title: 'Remote Objects', url: 'remote-objects' },
   ],
   Functions: [
-    { title: 'Email', url: 'email' },
-    { title: 'Calendar', url: 'calendar' },
+    { title: 'Emails', url: 'emails' },
     { title: 'Notes', url: 'notes' },
     { title: 'Tasks', url: 'tasks' },
   ],
