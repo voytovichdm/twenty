@@ -35,7 +35,7 @@ Complete step three and four with :
 
 ## Production docker containers
 
-Prebuilt images for both Postgres, frontend, and back-end can be found on [docker hub](https://hub.docker.com/r/twentycrm/).
+Prebuilt images for both Postgres, frontend, and back-end can be found on [docker hub](https://hub.docker.com/r/twentycrm/). Note that the Postgres container will not persist data if your server is not configured to be stateful (for example Heroku). You probably want to configure a special stateful resource for the database.
 
 ## Environment Variables
 
@@ -59,8 +59,6 @@ services:
     environment:
       - SIGN_IN_PREFILLED=${SIGN_IN_PREFILLED}
       - REACT_APP_SERVER_BASE_URL=${LOCAL_SERVER_URL}
-      - REACT_APP_SERVER_AUTH_URL=${LOCAL_SERVER_URL}/auth
-      - REACT_APP_SERVER_FILES_URL=${LOCAL_SERVER_URL}/files
     depends_on:
       - backend
 
