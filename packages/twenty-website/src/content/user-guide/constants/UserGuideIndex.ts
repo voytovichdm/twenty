@@ -11,13 +11,14 @@ export const USER_GUIDE_INDEX = {
   'Getting Started': [
     { title: 'What is Twenty', url: 'what-is-twenty' },
     { title: 'Create a Workspace', url: 'create-workspace' },
-    { title: 'Import/Export data', url: 'import-data' },
   ],
   Objects: [
-    { title: 'People', url: 'people' },
-    { title: 'Companies', url: 'companies' },
-    { title: 'Opportunities', url: 'opportunities' },
-    { title: 'Custom Objects', url: 'custom-objects' },
+    { title: 'Objects', url: 'objects' },
+    { title: 'Fields', url: 'fields' },
+    { title: 'Views, Sort and Filter', url: 'views' },
+    { title: 'Table Views', url: 'table-views' },
+    { title: 'Kanban Views', url: 'kanban-views' },
+    { title: 'Import/Export Data', url: 'import-export-data' },
   ],
   Functions: [
     { title: 'Emails', url: 'emails' },
