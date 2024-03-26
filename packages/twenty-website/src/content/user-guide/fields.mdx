@@ -10,25 +10,21 @@ image: /images/user-guide/people_header.png
 
 Fields in an object are like column names in an Excel spreadsheet, indicating the type of stored data like text, numbers, or dates under a specific name. These fields can be standard (created by default) or custom (user-created).
 
-# Standard Fields
+## Standard Fields
 
-## About
+The platform includes Standard Fields by default as predefined fields designed to meet common, universal requirements in business modeling.
 
-Standard Fields are predefined fields included by default. They are delivered as part of the platform and are designed to serve common, universal requirements in business modeling.
+As an example, "First Name" and "Last Name" are standard fields within the `people object`. They're text fields, meant to capture and store the respective names of individuals. 
 
-As an example, "First Name" and "Last Name" are standard fields within the `people object`. They are text fields, meant to capture and store the respective names of individuals. 
+As essential parts of the data model, you can't delete them, but only deactivate them.
 
-As essential parts of the data model, they cannot be deleted, but only deactivated.
+## Custom Fields
 
-# Custom Fields
+A `Custom Field` is a user-defined attribute you can add to a standard or custom object to store specific information that is not captured by the default fields. These fields can carry different types of data such as text, number, date, Select values, etc. Custom fields allow you to tailor your database to the unique needs of your business.
 
-## About
+For instance, a custom field for SpaceX could be "Rocket Active Status", indicating if a rocket is operational.
 
-A `Custom Field` is a user-defined attribute that can be added to a standard or custom object to store specific information that is not captured by the default fields. These fields can carry different types of data such as text, number, date, Select values, etc. Custom fields allow you to tailor your database to the unique needs of your business, ensuring that all necessary data points are captured and conveniently accessible.
-
-For instance, a custom field for SpaceX could be "Rocket Active Status", indicating if a rocket is currently operational.
-
-## Creating a Custom Field
+# Create a Custom Field
 
 To add a custom field to any object, follow these steps:
 	1.	Go to `Settings` in the sidebar on the left.
@@ -52,12 +48,12 @@ Here's how you can do it:
 
 3. In the dropdown menu, find and click on the "deactivate" option.
 
-And, voila! You've successfully deactivated a field. But what does this mean for your CRM operations?
+And, voila! You've deactivated a field. But what does this mean for your CRM operations?
 
 1. **In-App Functionality:** A deactivated field will no longer function within the app. You won't be able to assign values to these fields anymore.
 
-2. **Relation Fields:** If the deactivated field happens to be a relation field, the system doesn't delete the existing relation. However, it does stop you from assignment or linking records to each other via this field in the app moving forward.
+2. **Relation Fields:** If the deactivated field happens to be a relation field, the system doesn't delete the existing relation. It does stop you from assignment or linking records to each other via this field in the app moving forward.
 
-3. **API:** Deactivated Fields and their data can still be utilized through the API.
+3. **API:** You can still use deactivated Fields and their data through the API.
 
-Standard and Custom Fields can be reactivated. Custom fields also offer the choice of permanent deletion.
+You can reactivate Standard and Custom Fields or have the option to permanently delete them.
