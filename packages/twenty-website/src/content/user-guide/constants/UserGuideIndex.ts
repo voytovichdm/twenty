@@ -26,7 +26,10 @@ export const USER_GUIDE_INDEX = {
     { title: 'Tasks', url: 'tasks' },
     { title: 'Integrations', url: 'integrations'},
     { title: 'API and Webhooks', url: 'api-webhooks'},
+  ],
+  Other: [
     { title: 'Glossary', url: 'glossary'},
-    { title: 'Tips', url: 'tips'}
+    { title: 'Tips', url: 'tips'},
+    { title: 'Github', url: 'github'},
   ],
 };
